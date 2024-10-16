@@ -1,0 +1,2 @@
+# sqitch-templates
+sqitch templates
