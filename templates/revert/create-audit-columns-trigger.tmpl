@@ -1,0 +1,7 @@
+-- Revert [% project %]:[% change %] from [% engine %]
+
+BEGIN;
+
+DROP TRIGGER [% table %]_audit_columns_trg ON [% schema %].[% table %];
+
+COMMIT;

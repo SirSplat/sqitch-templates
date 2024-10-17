@@ -1,0 +1,18 @@
+-- Deploy [% project %]:[% change %] to [% engine %]
+[% FOREACH item IN requires -%]
+-- requires: [% item %]
+[% END -%]
+[% FOREACH item IN conflicts -%]
+-- conflicts: [% item %]
+[% END -%]
+
+BEGIN;
+
+CREATE TRIGGER [% table %]_audit_columns_trg
+    BEFORE UPDATE OR DELETE ON [% schema %].[% table %]
+    FOR EACH ROW
+    EXECUTE FUNCTION rental.audit_columns_trg_func();
+
+COMMENT ON TRIGGER [% table %]_audit_columns_trg ON [% schema %].[% table %] IS '[% comment %]';
+
+COMMIT;
