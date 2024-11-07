@@ -4,8 +4,10 @@
 
 BEGIN;
 
+-- Ensure the schema exists.
 SELECT pg_catalog.has_schema_privilege( 'dbo', '[% schemaname %]', 'USAGE' );
 
+-- Ensure the dbo role is the owner of the schema.
 SELECT
     1 / COUNT( pg_roles.rolname )
 FROM
@@ -17,6 +19,7 @@ FROM
 WHERE
     pg_namespace.nspname = '[% schemaname %]';
 
+-- Ensure the schema has a comment provided.
 SELECT
     1 / COUNT( pg_catalog.obj_description( pg_namespace.oid, 'pg_namespace' ) )
 FROM
