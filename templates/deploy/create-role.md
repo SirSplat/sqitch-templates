@@ -26,13 +26,13 @@ CREATE ROLE [% rolename %] WITH
 [% IF login %] LOGIN[% ELSE %] NOLOGIN[% END %]
 [% IF replication %] REPLICATION[% ELSE %] NOREPLICATION[% END %]
 [% IF bypassrls %] BYPASSRLS[% ELSE %] NOBYPASSRLS[% END %]
-[% IF connlimit %] CONNECTION LIMIT [% connlimit %][% END %]
-[% IF password %] PASSWORD '[% password %]'[% ELSE %] PASSWORD NULL[% END %]
-[% IF validuntil %] VALID UNTIL '[% validuntil %]'[% END %]
-[% IF inrole %] IN ROLE [% inrole.join(', ') %][% END %]
-[% IF role %] ROLE [% role.join(', ') %][% END %]
-[% IF admin %] ADMIN [% admin.join(', ') %][% END %]
-[% IF sysid %] SYSID [% sysid %][% END %];
+[% IF connlimit %] CONNECTION LIMIT [% connlimit %][% END -%]
+[% IF login && password %] PASSWORD '[% password %]'[% END -%]
+[% IF validuntil %] VALID UNTIL '[% validuntil %]'[% END -%]
+[% IF inrole %] IN ROLE [% inrole.join(', ') %][% END -%]
+[% IF role %] ROLE [% role.join(', ') %][% END -%]
+[% IF admin %] ADMIN [% admin.join(', ') %][% END -%]
+[% IF sysid %] SYSID [% sysid %][% END -%];
 ```
 
 ## Parameter Explanation
@@ -66,7 +66,7 @@ For sqitch options syntax see: https://sqitch.org/docs/manual/sqitch-add/
 
 **Command**:
 ```bash
-sqitch add create_basic_role db \
+sqitch add create_basic_role db --template create-role \
     -s rolename=user_role \
     -s login=1 \
     -s rolecomment='Basic role, used by monitoring tools.' \
@@ -85,7 +85,7 @@ WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN NOREPLICATION NOBYPASSR
 
 **Command**:
 ```bash
-sqitch add create_superuser_role \
+sqitch add create_superuser_role --template create-role \
     -s rolename=admin_user \
     -s superuser=1
 ```
@@ -102,7 +102,7 @@ WITH SUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOLOGIN NOREPLICATION NOBYPASSR
 
 **Command**:
 ```bash
-sqitch add create_limited_role \
+sqitch add create_limited_role --template create-role \
     -s rolename=limited_user \
     -s connlimit=5 \
     -s validuntil='2025-12-31 23:59:59'
@@ -120,7 +120,7 @@ WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOLOGIN NOREPLICATION NOBYPAS
 
 **Command**:
 ```bash
-sqitch add create_role_with_admin_rights \
+sqitch add create_role_with_admin_rights --template create-role \
     -s rolename=project_lead \
     -s admin=['developer', 'tester']
 ```
@@ -137,7 +137,7 @@ WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOLOGIN NOREPLICATION NOBYPAS
 
 **Command**:
 ```bash
-sqitch add create_custom_sysid_role \
+sqitch add create_custom_sysid_role --template create-role \
     -s rolename=custom_role \
     -s sysid=1001
 ```
