@@ -19,7 +19,7 @@ CREATE ROLE [% rolename %] WITH
 [% IF replication %] REPLICATION[% ELSE %] NOREPLICATION[% END %]
 [% IF bypassrls %] BYPASSRLS[% ELSE %] NOBYPASSRLS[% END %]
 [% IF connlimit %] CONNECTION LIMIT [% connlimit %][% END -%]
-[% IF login && password %] PASSWORD '[% password %]'[% ELSE %] PASSWORD NULL[% END -%]
+[% IF login && password %] PASSWORD '[% password %]'[% END -%]
 [% IF validuntil %] VALID UNTIL '[% validuntil %]'[% END -%]
 [% IF inrole %] IN ROLE [% inrole.join(', ') %][% END -%]
 [% IF role %] ROLE [% role.join(', ') %][% END -%]
