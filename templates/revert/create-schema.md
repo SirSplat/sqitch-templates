@@ -6,6 +6,8 @@ This document provides detailed usage instructions for the **revert** template u
 
 The `revert` template is used to remove a schema from the PostgreSQL database. This operation is performed within a transaction to ensure that the rollback is atomic and consistent.
 
+See PostgreSQL documentation for [DROP SCHEMA](https://www.postgresql.org/docs/current/sql-dropschema.html) implementation.
+
 ## Template Structure
 
 ```sql

@@ -11,6 +11,7 @@
 BEGIN;
 
 CREATE SCHEMA [% schemaname %];
+
 COMMENT ON SCHEMA [% schemaname %] IS [% IF schemacomment %]'[% schemacomment %]'[% ELSE %]NULL[% END %];
 
 COMMIT;

@@ -10,6 +10,9 @@ The `create-schema.tmpl` template is designed to deploy a new schema in PostgreS
 - **Comments**: Adds a comment to the schema or sets it to `NULL` if no comment is provided.
 - **Dependencies and Conflicts**: Lists dependencies (`requires`) and conflicts (`conflicts`) as comments for better documentation.
 
+See PostgreSQL documentation for [CREATE SCHEMA](https://www.postgresql.org/docs/current/sql-createschema.html) implementation.
+See PostgreSQL documentation for [COMMENT ON SCHEMA](https://www.postgresql.org/docs/current/sql-comment.html) implementation.
+
 ## Template Parameters
 
 1. **`project`**: The name of the project deploying the schema. Gathered from sqitch.conf.
@@ -55,7 +58,7 @@ COMMIT;
 
 # Example Usage Scenarios
 
-For sqitch options syntax see: https://sqitch.org/docs/manual/sqitch-add/
+For sqitch [add options syntax](https://sqitch.org/docs/manual/sqitch-add/)
 
 ## Example 1: Basic Schema Creation with a Comment
 

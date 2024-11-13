@@ -6,6 +6,10 @@ This document provides detailed usage instructions for the **verify** template u
 
 The `verify` template is used to check the existence of a schema, confirm its ownership by a specific role, and verify that it has an associated comment. This operation ensures that the schema was created correctly according to the expectations defined during deployment.
 
+See PostgreSQL documentation for [pg_catalog.has_schema_privilege](https://www.postgresql.org/docs/current/functions-info.html#FUNCTIONS-INFO-ACCESS-TABLE) implementation.
+See PostgreSQL documentation for [pg_catalog.pg_namespace](https://www.postgresql.org/docs/current/catalog-pg-namespace.html) implementation.
+See PostgreSQL documentation for [pg_catalog.obj_description](https://www.postgresql.org/docs/current/functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE) implementation.
+
 ## Template Structure
 
 ```sql
