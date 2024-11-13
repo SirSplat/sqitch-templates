@@ -19,20 +19,20 @@ See PostgreSQL documentation for [COMMENT ON ROLE](https://www.postgresql.org/do
 -- Deploy [% project %]:[% change %] to [% engine %]
 
 CREATE ROLE [% rolename %] WITH
-[% IF superuser %] SUPERUSER [% ELSE %] NOSUPERUSER [% END %]
-[% IF createdb %] CREATEDB[% ELSE %] NOCREATEDB[% END %]
-[% IF createrole %] CREATEROLE[% ELSE %] NOCREATEROLE[% END %]
-[% IF inherit %] INHERIT[% ELSE %] NOINHERIT[% END %]
-[% IF login %] LOGIN[% ELSE %] NOLOGIN[% END %]
-[% IF replication %] REPLICATION[% ELSE %] NOREPLICATION[% END %]
-[% IF bypassrls %] BYPASSRLS[% ELSE %] NOBYPASSRLS[% END %]
-[% IF connlimit %] CONNECTION LIMIT [% connlimit %][% END -%]
-[% IF login && password %] PASSWORD '[% password %]'[% END -%]
-[% IF validuntil %] VALID UNTIL '[% validuntil %]'[% END -%]
-[% IF inrole %] IN ROLE [% inrole.join(', ') %][% END -%]
-[% IF role %] ROLE [% role.join(', ') %][% END -%]
-[% IF admin %] ADMIN [% admin.join(', ') %][% END -%]
-[% IF sysid %] SYSID [% sysid %][% END -%];
+[% IF superuser %]    SUPERUSER [% ELSE %]    NOSUPERUSER [% END %]
+[% IF createdb %]    CREATEDB[% ELSE %]    NOCREATEDB[% END %]
+[% IF createrole %]    CREATEROLE[% ELSE %]    NOCREATEROLE[% END %]
+[% IF inherit %]    INHERIT[% ELSE %]    NOINHERIT[% END %]
+[% IF login %]    LOGIN[% ELSE %]    NOLOGIN[% END %]
+[% IF replication %]    REPLICATION[% ELSE %]    NOREPLICATION[% END %]
+[% IF bypassrls %]    BYPASSRLS[% ELSE %]    NOBYPASSRLS[% END -%]
+[% IF connlimit %]    CONNECTION LIMIT [% connlimit %][% END -%]
+[% IF login && password %]    PASSWORD '[% password %]'[% END -%]
+[% IF validuntil %]    VALID UNTIL '[% validuntil %]'[% END -%]
+[% IF inrole %]    IN ROLE [% inrole.join(', ') %][% END -%]
+[% IF role %]    ROLE [% role.join(', ') %][% END -%]
+[% IF admin %]    ADMIN [% admin.join(', ') %][% END -%]
+[% IF sysid %]    SYSID [% sysid %][% END -%];
 ```
 
 ## Parameter Explanation
@@ -46,7 +46,7 @@ CREATE ROLE [% rolename %] WITH
 - **`replication`**: Specifies if the role has replication privileges (`REPLICATION` or `NOREPLICATION`).
 - **`bypassrls`**: Determines if the role can bypass row-level security (`BYPASSRLS` or `NOBYPASSRLS`).
 - **`connlimit`**: Sets the connection limit for the role (`CONNECTION LIMIT`).
-- **`password`**: Sets an encrypted password or specifies `PASSWORD NULL`.
+- **`password`**: Sets an encrypted password if both `login` and `password` are provided.
 - **`validuntil`**: Specifies when the role expires (`VALID UNTIL`).
 - **`inrole`**: Specifies roles that this role is a member of (`IN ROLE`).
 - **`role`**: Specifies roles that this role can grant (`ROLE`).
@@ -75,8 +75,15 @@ sqitch add create_basic_role db --template create-role \
 
 **Generated SQL**:
 ```sql
-CREATE ROLE user_role
-WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'my_password';
+CREATE ROLE user_role WITH
+    NOSUPERUSER
+    NOCREATEDB
+    NOCREATEROLE
+    NOINHERIT
+    LOGIN
+    NOREPLICATION
+    NOBYPASSRLS
+    PASSWORD 'my_password';
 ```
 
 **Explanation**: This command creates a role named `user_role` with login privileges and a password.
@@ -92,8 +99,14 @@ sqitch add create_superuser_role --template create-role \
 
 **Generated SQL**:
 ```sql
-CREATE ROLE admin_user
-WITH SUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOLOGIN NOREPLICATION NOBYPASSRLS PASSWORD NULL;
+CREATE ROLE admin_user WITH
+    SUPERUSER
+    NOCREATEDB
+    NOCREATEROLE
+    NOINHERIT
+    NOLOGIN
+    NOREPLICATION
+    NOBYPASSRLS;
 ```
 
 **Explanation**: This command creates a role named `admin_user` with superuser privileges.
@@ -110,8 +123,16 @@ sqitch add create_limited_role --template create-role \
 
 **Generated SQL**:
 ```sql
-CREATE ROLE limited_user
-WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOLOGIN NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 5 PASSWORD NULL VALID UNTIL '2025-12-31 23:59:59';
+CREATE ROLE limited_user WITH
+    NOSUPERUSER
+    NOCREATEDB
+    NOCREATEROLE
+    NOINHERIT
+    NOLOGIN
+    NOREPLICATION
+    NOBYPASSRLS
+    CONNECTION LIMIT 5
+    VALID UNTIL '2025-12-31 23:59:59';
 ```
 
 **Explanation**: This command creates a role named `limited_user` with a connection limit of 5 and an expiration date.
@@ -127,8 +148,15 @@ sqitch add create_role_with_admin_rights --template create-role \
 
 **Generated SQL**:
 ```sql
-CREATE ROLE project_lead
-WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOLOGIN NOREPLICATION NOBYPASSRLS PASSWORD NULL ADMIN developer, tester;
+CREATE ROLE project_lead WITH
+    NOSUPERUSER
+    NOCREATEDB
+    NOCREATEROLE
+    NOINHERIT
+    NOLOGIN
+    NOREPLICATION
+    NOBYPASSRLS
+    ADMIN developer, tester;
 ```
 
 **Explanation**: This command creates a role named `project_lead` with administrative rights over the `developer` and `tester` roles.
@@ -144,8 +172,15 @@ sqitch add create_custom_sysid_role --template create-role \
 
 **Generated SQL**:
 ```sql
-CREATE ROLE custom_role
-WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOLOGIN NOREPLICATION NOBYPASSRLS PASSWORD NULL SYSID 1001;
+CREATE ROLE custom_role WITH
+    NOSUPERUSER
+    NOCREATEDB
+    NOCREATEROLE
+    NOINHERIT
+    NOLOGIN
+    NOREPLICATION
+    NOBYPASSRLS
+    SYSID 1001;
 ```
 
 **Explanation**: This command creates a role named `custom_role` with a custom system ID of 1001.
